@@ -23,7 +23,7 @@ const DEFAULT_CURRENT_STEP = 1;
 const CheckoutSteps = () => {
   const { t } = useTranslation();
 
-  const [currentStep, setCurrentStep] = useState(DEFAULT_CURRENT_STEP);
+  const [currentStep] = useState(DEFAULT_CURRENT_STEP);
   const [steps] = useState([
     {
       label: t('delivery'),
@@ -64,19 +64,6 @@ const CheckoutSteps = () => {
           );
         })}
       </StyledCheckoutSteps>
-      <button
-        onClick={() => setCurrentStep((prevStep) => prevStep + 1)}
-        type="button"
-      >
-        Next step
-      </button>
-
-      <button
-        onClick={() => setCurrentStep((prevStep) => prevStep - 1)}
-        type="button"
-      >
-        Previouse step
-      </button>
     </>
   );
 };
