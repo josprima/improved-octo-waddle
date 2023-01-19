@@ -18,7 +18,9 @@
     "incremental": true,
     "baseUrl": "./src",
     "paths": {
-      "@components/*": ["./components/*"]
+      "@components/*": ["./components/*"],
+      "@constants/*": ["./constants/*"],
+      "@libs/*": ["./libs/*"]
     }
   },
   "include": ["src"],
