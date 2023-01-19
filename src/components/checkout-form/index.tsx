@@ -1,10 +1,12 @@
-import Button from '@components/button';
 import { COLOR } from '@constants/themes';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import CheckoutSteps from './CheckoutSteps';
 import { useState } from 'react';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import DeliveryForm from './DeliveryForm';
+import PaymentForm from './PaymentForm';
+import BackButton from '@components/back-button';
+import FinishStep from './FinishStep';
 
 const StyledCheckoutForm = styled.div`
   background-color: ${COLOR.white};
@@ -20,12 +22,16 @@ const StyledCheckoutForm = styled.div`
   }
 `;
 
+const StyledStepWrapper = styled.div`
+  margin-top: 20px;
+`;
+
 const DEFAULT_CURRENT_STEP = 1;
 
 const CheckoutForm = () => {
   const { t } = useTranslation();
 
-  const [currentStep] = useState(DEFAULT_CURRENT_STEP);
+  const [currentStep, setCurrentStep] = useState(DEFAULT_CURRENT_STEP);
   const [steps] = useState([
     {
       label: t('delivery'),
@@ -43,24 +49,51 @@ const CheckoutForm = () => {
     },
   ]);
 
+  const handleOnClickBack = () => {
+    if (currentStep === 1) {
+      return;
+    }
+
+    setCurrentStep((prevStep) => prevStep - 1);
+  };
+
+  const handleFormOnSubmit = () => {
+    if (currentStep === steps.length) {
+      setCurrentStep(DEFAULT_CURRENT_STEP);
+      return;
+    }
+
+    setCurrentStep((prevStep) => prevStep + 1);
+  };
+
+  const renderFormStep = () => {
+    switch (currentStep) {
+      case 1:
+        return <DeliveryForm onSubmit={handleFormOnSubmit} />;
+
+      case 2:
+        return <PaymentForm onSubmit={handleFormOnSubmit} />;
+
+      case 3:
+        return <FinishStep onSubmit={handleFormOnSubmit} />;
+
+      default:
+        return null;
+    }
+  };
+
   return (
     <StyledCheckoutForm>
       <CheckoutSteps currentStep={currentStep} steps={steps} />
 
       {steps[currentStep - 1].backButtonText && (
-        <Button
-          style={{
-            padding: 0,
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-          }}
-          variant="secondary"
-        >
-          <ArrowBackIcon sx={{ color: COLOR.textPrimary, fontSize: 18 }} />
-          <span>{steps[currentStep - 1].backButtonText}</span>
-        </Button>
+        <BackButton
+          onClick={handleOnClickBack}
+          text={steps[currentStep - 1].backButtonText}
+        />
       )}
+
+      <StyledStepWrapper>{renderFormStep()}</StyledStepWrapper>
     </StyledCheckoutForm>
   );
 };

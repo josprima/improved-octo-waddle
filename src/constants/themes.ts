@@ -5,6 +5,7 @@ export const COLOR = {
   white: '#FFFFFF',
   textPrimary: 'rgba(0, 0, 0, 0.6)',
   textSecondary: '#000000',
+  backgroundSecondary: '#EEEEEE',
 };
 
 export const FONT = {
