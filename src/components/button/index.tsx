@@ -11,7 +11,7 @@ const StyledButton = styled.button`
   transition: background-color linear 0.2s;
 
   &:hover {
-    background-color: ${COLOR.secondary};
+    background-color: ${COLOR.primary_hover};
     transition: background-color linear 0.2s;
   }
 `;

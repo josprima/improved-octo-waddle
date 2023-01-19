@@ -1,3 +1,6 @@
 {
-  "continueToPayment": "Continue to Payment"
+  "continueToPayment": "Continue to Payment",
+  "delivery": "Delivery",
+  "payment": "Payment",
+  "finish": "Finish"
 }
