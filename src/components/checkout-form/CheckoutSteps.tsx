@@ -1,44 +1,28 @@
 import { COLOR } from '@constants/themes';
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import StepItem from './StepItem';
+import { CheckoutStepsProps } from './Checkout.interfaces';
+
+const StyledCheckoutStepsContainer = styled.div`
+  padding: 0 20px;
+  position: absolute;
+  top: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 100%;
+`;
 
 const StyledCheckoutSteps = styled.div`
   background-color: ${COLOR.secondary};
   padding: 20px 38px;
   border-radius: 35px;
-  position: absolute;
-  top: -35px;
-  left: 50%;
-  transform: translateX(-50%);
   display: flex;
   gap: 20px;
-  max-width: 100%;
   overflow-x: auto;
 `;
 
-const DEFAULT_CURRENT_STEP = 1;
-
-const CheckoutSteps = () => {
-  const { t } = useTranslation();
-
-  const [currentStep] = useState(DEFAULT_CURRENT_STEP);
-  const [steps] = useState([
-    {
-      label: t('delivery'),
-      id: 'step-1',
-    },
-    {
-      label: t('payment'),
-      id: 'step-2',
-    },
-    {
-      label: t('finish'),
-      id: 'step-3',
-    },
-  ]);
-
+const CheckoutSteps = ({ steps, currentStep }: CheckoutStepsProps) => {
   useEffect(() => {
     document.getElementById(`step-${currentStep}`)?.scrollIntoView({
       behavior: 'smooth',
@@ -47,7 +31,7 @@ const CheckoutSteps = () => {
   }, [currentStep]);
 
   return (
-    <>
+    <StyledCheckoutStepsContainer>
       <StyledCheckoutSteps>
         {steps.map((step, index) => {
           const itemSequence = index + 1;
@@ -64,7 +48,7 @@ const CheckoutSteps = () => {
           );
         })}
       </StyledCheckoutSteps>
-    </>
+    </StyledCheckoutStepsContainer>
   );
 };
 

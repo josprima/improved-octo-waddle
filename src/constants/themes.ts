@@ -1,8 +1,10 @@
 export const COLOR = {
   primary: '#FF8A00',
-  primary_hover: '#FFB660',
+  primaryHover: '#FFB660',
   secondary: '#FFFAE6',
   white: '#FFFFFF',
+  textPrimary: 'rgba(0, 0, 0, 0.6)',
+  textSecondary: '#000000',
 };
 
 export const FONT = {

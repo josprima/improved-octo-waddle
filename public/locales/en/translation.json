@@ -2,5 +2,7 @@
   "continueToPayment": "Continue to Payment",
   "delivery": "Delivery",
   "payment": "Payment",
-  "finish": "Finish"
+  "finish": "Finish",
+  "backToCart": "Back to cart",
+  "backToDelivery": "Back to delivery"
 }

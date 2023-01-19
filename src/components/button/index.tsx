@@ -1,25 +1,41 @@
 import { COLOR } from '@constants/themes';
 import styled from 'styled-components';
-import { ButtonProps } from './Button.interfaces';
+import { ButtonProps, ButtonVariantType } from './Button.interfaces';
 
-const StyledButton = styled.button`
-  background-color: ${COLOR.primary};
-  color: ${COLOR.white};
+const StyledButton = styled.button<{ variant: ButtonVariantType }>`
   padding: 20px 34px;
   border: 0;
   cursor: pointer;
   transition: background-color linear 0.2s;
+  font-weight: 500;
+  background-color: ${(props) =>
+    props.variant === 'primary' ? COLOR.primary : 'transparent'};
+  color: ${(props) =>
+    props.variant === 'primary' ? COLOR.white : COLOR.textPrimary};
 
-  &:hover {
-    background-color: ${COLOR.primary_hover};
-    transition: background-color linear 0.2s;
+  &:active {
+    background-color: ${(props) =>
+      props.variant === 'primary' && COLOR.primaryHover};
+    color: ${(props) => props.variant === 'secondary' && COLOR.textSecondary};
+    transition: all linear 0.2s;
   }
 `;
 
-const Button = ({ text, type = 'button', onClick }: ButtonProps) => {
+const Button = ({
+  type = 'button',
+  onClick,
+  children,
+  style,
+  variant = 'primary',
+}: ButtonProps) => {
   return (
-    <StyledButton type={type} onClick={onClick}>
-      {text}
+    <StyledButton
+      variant={variant}
+      type={type}
+      onClick={onClick}
+      style={{ ...style }}
+    >
+      {children}
     </StyledButton>
   );
 };
