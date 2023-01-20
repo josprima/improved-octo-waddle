@@ -1,7 +1,7 @@
 import BackButton from '@components/back-button';
 import Text from '@components/text';
+import { useCheckout } from '@contexts/CheckoutContext';
 import styled from 'styled-components';
-import { StepFormProps } from './Checkout.interfaces';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -13,13 +13,15 @@ const StyledSummary = styled.div`
   padding: 30px 20px 20px;
 `;
 
-const FinishStep = ({ onSubmit }: StepFormProps) => {
+const FinishStep = () => {
+  const { handleOnFormSubmit } = useCheckout();
+
   return (
     <StyledContainer>
       <div>
         <Text text="Thank you" />
 
-        <BackButton onClick={onSubmit} text="Go to homepage" />
+        <BackButton onClick={handleOnFormSubmit} text="Go to homepage" />
       </div>
       <StyledSummary>
         <Text text="Summary" variant="sub-title" />

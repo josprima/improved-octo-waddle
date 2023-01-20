@@ -6,6 +6,9 @@ export const COLOR = {
   textPrimary: 'rgba(0, 0, 0, 0.6)',
   textSecondary: '#000000',
   backgroundSecondary: '#EEEEEE',
+  border: '#CCCCCC',
+  borderGreen: '#1BD97B',
+  borderOrange: '#FF8A00',
 };
 
 export const FONT = {

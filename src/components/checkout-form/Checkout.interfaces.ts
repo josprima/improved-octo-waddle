@@ -10,7 +10,3 @@ export interface CheckoutStepsProps {
   steps: StepItemProps[];
   currentStep: number;
 }
-
-export interface StepFormProps {
-  onSubmit: () => void;
-}

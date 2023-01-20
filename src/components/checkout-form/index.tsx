@@ -1,12 +1,11 @@
 import { COLOR } from '@constants/themes';
 import styled from 'styled-components';
-import { useTranslation } from 'react-i18next';
 import CheckoutSteps from './CheckoutSteps';
-import { useState } from 'react';
 import DeliveryForm from './DeliveryForm';
 import PaymentForm from './PaymentForm';
 import BackButton from '@components/back-button';
 import FinishStep from './FinishStep';
+import { useCheckout } from '@contexts/CheckoutContext';
 
 const StyledCheckoutForm = styled.div`
   background-color: ${COLOR.white};
@@ -26,56 +25,19 @@ const StyledStepWrapper = styled.div`
   margin-top: 20px;
 `;
 
-const DEFAULT_CURRENT_STEP = 1;
-
 const CheckoutForm = () => {
-  const { t } = useTranslation();
-
-  const [currentStep, setCurrentStep] = useState(DEFAULT_CURRENT_STEP);
-  const [steps] = useState([
-    {
-      label: t('delivery'),
-      id: 'step-1',
-      backButtonText: t('backToCart'),
-    },
-    {
-      label: t('payment'),
-      id: 'step-2',
-      backButtonText: t('backToDelivery'),
-    },
-    {
-      label: t('finish'),
-      id: 'step-3',
-    },
-  ]);
-
-  const handleOnClickBack = () => {
-    if (currentStep === 1) {
-      return;
-    }
-
-    setCurrentStep((prevStep) => prevStep - 1);
-  };
-
-  const handleFormOnSubmit = () => {
-    if (currentStep === steps.length) {
-      setCurrentStep(DEFAULT_CURRENT_STEP);
-      return;
-    }
-
-    setCurrentStep((prevStep) => prevStep + 1);
-  };
+  const { currentStep, steps, handleOnClickBack } = useCheckout();
 
   const renderFormStep = () => {
     switch (currentStep) {
       case 1:
-        return <DeliveryForm onSubmit={handleFormOnSubmit} />;
+        return <DeliveryForm />;
 
       case 2:
-        return <PaymentForm onSubmit={handleFormOnSubmit} />;
+        return <PaymentForm />;
 
       case 3:
-        return <FinishStep onSubmit={handleFormOnSubmit} />;
+        return <FinishStep />;
 
       default:
         return null;

@@ -1,4 +1,10 @@
-import { Dispatch, ReactElement, SetStateAction } from 'react';
+import { ReactElement } from 'react';
+import {
+  FieldErrorsImpl,
+  UseFormGetValues,
+  UseFormRegister,
+  FieldNamesMarkedBoolean,
+} from 'react-hook-form';
 
 export interface CheckoutProviderProps {
   children: ReactElement;
@@ -13,6 +19,17 @@ export type FormDataType = {
 };
 
 export type FormDataContextValueType = {
-  formData: FormDataType;
-  setFormData: Dispatch<SetStateAction<FormDataType>>;
+  register: UseFormRegister<FormDataType>;
+  errors: Partial<FieldErrorsImpl<FormDataType>>;
+  dirtyFields: Partial<Readonly<FieldNamesMarkedBoolean<FormDataType>>>;
+  isValid: boolean;
+  getValues: UseFormGetValues<FormDataType>;
+  handleOnFormSubmit: () => void;
+  handleOnClickBack: () => void;
+  steps: {
+    label: string;
+    id: string;
+    backButtonText?: string | undefined;
+  }[];
+  currentStep: number;
 };

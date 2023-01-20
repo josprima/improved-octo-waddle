@@ -1,7 +1,7 @@
 import Button from '@components/button';
 import Text from '@components/text';
+import { useCheckout } from '@contexts/CheckoutContext';
 import styled from 'styled-components';
-import { StepFormProps } from './Checkout.interfaces';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -13,7 +13,9 @@ const StyledSummary = styled.div`
   padding: 30px 20px 20px;
 `;
 
-const PaymentForm = ({ onSubmit }: StepFormProps) => {
+const PaymentForm = () => {
+  const { handleOnFormSubmit } = useCheckout();
+
   return (
     <StyledContainer>
       <div>
@@ -25,7 +27,7 @@ const PaymentForm = ({ onSubmit }: StepFormProps) => {
       <StyledSummary>
         <Text text="Summary" variant="sub-title" />
 
-        <Button onClick={onSubmit}>
+        <Button onClick={handleOnFormSubmit}>
           <span>Pay with e-Wallet</span>
         </Button>
       </StyledSummary>

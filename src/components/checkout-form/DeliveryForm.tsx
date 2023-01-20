@@ -1,8 +1,10 @@
 import Button from '@components/button';
 import Text from '@components/text';
+import TextInput from '@components/text-input';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { StepFormProps } from './Checkout.interfaces';
+import _isEmpty from 'lodash/isEmpty';
+import { useCheckout } from '@contexts/CheckoutContext';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -14,8 +16,10 @@ const StyledSummary = styled.div`
   padding: 30px 20px 20px;
 `;
 
-const DeliveryForm = ({ onSubmit }: StepFormProps) => {
+const DeliveryForm = () => {
   const { t } = useTranslation();
+
+  const { dirtyFields, errors, register, handleOnFormSubmit } = useCheckout();
 
   return (
     <StyledContainer>
@@ -23,11 +27,28 @@ const DeliveryForm = ({ onSubmit }: StepFormProps) => {
         <div>
           <Text text="Delivery Details" />
         </div>
+
+        <div>
+          <TextInput
+            required
+            id="dropshipperName"
+            label="Dropshipper name"
+            name="dropshipperName"
+            isError={
+              !_isEmpty(errors.dropshipperName)
+                ? true
+                : dirtyFields.dropshipperName
+                ? false
+                : undefined
+            }
+            register={register}
+          />
+        </div>
       </div>
       <StyledSummary>
         <Text text="Summary" variant="sub-title" />
 
-        <Button onClick={onSubmit}>
+        <Button onClick={handleOnFormSubmit}>
           <span>{t('continueToPayment')}</span>
         </Button>
       </StyledSummary>
