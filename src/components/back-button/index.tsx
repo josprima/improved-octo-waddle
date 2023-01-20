@@ -2,13 +2,7 @@ import Button from '@components/button';
 import { COLOR } from '@constants/themes';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-const BackButton = ({
-  text,
-  onClick,
-}: {
-  text: string | undefined;
-  onClick?: () => void;
-}) => {
+const BackButton = ({ text, onClick }: { text: string | undefined; onClick?: () => void }) => {
   return (
     <Button
       style={{

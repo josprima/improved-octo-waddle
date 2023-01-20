@@ -1,5 +1,6 @@
 import CheckoutForm from '@components/checkout-form';
 import { COLOR } from '@constants/themes';
+import { CheckoutProvider } from '@contexts/CheckoutContext';
 import styled from 'styled-components';
 
 const AppWrapper = styled.div`
@@ -15,7 +16,9 @@ const AppWrapper = styled.div`
 function App() {
   return (
     <AppWrapper>
-      <CheckoutForm />
+      <CheckoutProvider>
+        <CheckoutForm />
+      </CheckoutProvider>
     </AppWrapper>
   );
 }

@@ -82,16 +82,13 @@ const CheckoutForm = () => {
     }
   };
 
+  const backButtonText = steps[currentStep - 1].backButtonText;
+
   return (
     <StyledCheckoutForm>
       <CheckoutSteps currentStep={currentStep} steps={steps} />
 
-      {steps[currentStep - 1].backButtonText && (
-        <BackButton
-          onClick={handleOnClickBack}
-          text={steps[currentStep - 1].backButtonText}
-        />
-      )}
+      {backButtonText && <BackButton onClick={handleOnClickBack} text={backButtonText} />}
 
       <StyledStepWrapper>{renderFormStep()}</StyledStepWrapper>
     </StyledCheckoutForm>

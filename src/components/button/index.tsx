@@ -8,14 +8,11 @@ const StyledButton = styled.button<{ variant: ButtonVariantType }>`
   cursor: pointer;
   transition: background-color linear 0.2s;
   font-weight: 500;
-  background-color: ${(props) =>
-    props.variant === 'primary' ? COLOR.primary : 'transparent'};
-  color: ${(props) =>
-    props.variant === 'primary' ? COLOR.white : COLOR.textPrimary};
+  background-color: ${(props) => (props.variant === 'primary' ? COLOR.primary : 'transparent')};
+  color: ${(props) => (props.variant === 'primary' ? COLOR.white : COLOR.textPrimary)};
 
   &:active {
-    background-color: ${(props) =>
-      props.variant === 'primary' && COLOR.primaryHover};
+    background-color: ${(props) => props.variant === 'primary' && COLOR.primaryHover};
     color: ${(props) => props.variant === 'secondary' && COLOR.textSecondary};
     transition: all linear 0.2s;
   }
@@ -29,12 +26,7 @@ const Button = ({
   variant = 'primary',
 }: ButtonProps) => {
   return (
-    <StyledButton
-      variant={variant}
-      type={type}
-      onClick={onClick}
-      style={{ ...style }}
-    >
+    <StyledButton variant={variant} type={type} onClick={onClick} style={{ ...style }}>
       {children}
     </StyledButton>
   );

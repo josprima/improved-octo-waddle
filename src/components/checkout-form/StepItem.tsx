@@ -16,8 +16,7 @@ const StyledSequence = styled.span<{ active: boolean }>`
   align-items: center;
   justify-content: center;
   color: ${(props) => (props.active ? COLOR.white : COLOR.primary)};
-  background-color: ${(props) =>
-    props.active ? COLOR.primary : 'rgba(255, 138, 0, 0.2)'};
+  background-color: ${(props) => (props.active ? COLOR.primary : 'rgba(255, 138, 0, 0.2)')};
   font-weight: 500;
   margin-right: 10px;
   font-size: 16px;
@@ -44,9 +43,7 @@ const StepItem = ({
       <StyledLabel>{label}</StyledLabel>
 
       {showArrowIcon && (
-        <KeyboardArrowRightIcon
-          sx={{ fontSize: 24, color: COLOR.primary, marginLeft: '25px' }}
-        />
+        <KeyboardArrowRightIcon sx={{ fontSize: 24, color: COLOR.primary, marginLeft: '25px' }} />
       )}
     </StyledStepItem>
   );
