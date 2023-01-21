@@ -18,6 +18,7 @@ export type FormDataType = {
   dropshipperPhoneNumber: string;
   shipment: string;
   paymentType: string;
+  sendAsDropshipper: boolean;
 };
 
 export type FormDataContextValueType = {

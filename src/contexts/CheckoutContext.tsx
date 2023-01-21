@@ -10,6 +10,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 const DEFAULT_CURRENT_STEP = 1;
+const PHONE_NUMBER_REGEX = /\+?([ -]?\d+)+|\(\d+\)([ -]\d+)/;
 
 const INITIAL_FORM_DATA: FormDataType = {
   address: '',
@@ -19,17 +20,14 @@ const INITIAL_FORM_DATA: FormDataType = {
   phoneNumber: '',
   shipment: '',
   paymentType: '',
+  sendAsDropshipper: false,
 };
 
 const deliveryFormSchema = yup
   .object({
     address: yup.string().max(120).required(),
-    email: yup.string().email().required(),
-    phoneNumber: yup
-      .string()
-      .min(6)
-      .max(20)
-      .matches(/\+?([ -]?\d+)+|\(\d+\)([ -]\d+)/),
+    email: yup.string().email(),
+    phoneNumber: yup.string().min(6).max(20).matches(PHONE_NUMBER_REGEX),
   })
   .required();
 
@@ -37,6 +35,13 @@ const paymentFormSchema = yup
   .object({
     shipment: yup.string().required(),
     paymentType: yup.string().required(),
+  })
+  .required();
+
+const dropshipperFormSchema = yup
+  .object({
+    dropshipperName: yup.string().required(),
+    dropshipperPhoneNumber: yup.string().min(6).max(20).matches(PHONE_NUMBER_REGEX).required(),
   })
   .required();
 
@@ -99,12 +104,17 @@ const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
   };
 
   useEffect(() => {
-    if (currentStep === 1) {
-      setSchema(deliveryFormSchema);
-    } else if (currentStep === 2) {
+    if (currentStep === 2) {
       setSchema(paymentFormSchema);
+      return;
     }
-  }, [currentStep]);
+
+    if (currentStep === 1 && getValues('sendAsDropshipper')) {
+      setSchema(deliveryFormSchema.concat(dropshipperFormSchema));
+    } else {
+      setSchema(deliveryFormSchema);
+    }
+  }, [currentStep, getValues('sendAsDropshipper')]);
 
   const value = {
     register,
