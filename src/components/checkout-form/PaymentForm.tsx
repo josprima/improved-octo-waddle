@@ -1,47 +1,62 @@
 import SelectInput from '@components/select-input';
 import Text from '@components/text';
 import { useCheckout } from '@contexts/CheckoutContext';
-import styled from 'styled-components';
-
-const StyledContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
 
 const PaymentForm = () => {
   const { register } = useCheckout();
 
   return (
-    <StyledContainer>
-      <div>
-        <div style={{ marginBottom: '30px' }}>
-          <Text text="Shipment" style={{ marginBottom: '30px' }} />
+    <div>
+      <div style={{ marginBottom: '30px' }}>
+        <Text text="Shipment" style={{ marginBottom: '30px' }} />
 
-          <SelectInput
-            name="shipment"
-            options={[
-              {
-                label: 'gosend',
-                value: 'gosend',
-              },
-              {
-                label: 'jne',
-                value: 'jne',
-              },
-              {
-                label: 'personalCourier',
-                value: 'personalCourier',
-              },
-            ]}
-            register={register}
-          />
-        </div>
-
-        <div>
-          <Text text="Payment" />
-        </div>
+        <SelectInput
+          name="shipment"
+          options={[
+            {
+              label: 'GO-SEND',
+              value: 'gosend',
+              valueLabel: '15,000',
+            },
+            {
+              label: 'JNE',
+              value: 'jne',
+              valueLabel: '9,000',
+            },
+            {
+              label: 'Personal Courier',
+              value: 'personalCourier',
+              valueLabel: '29,000',
+            },
+          ]}
+          register={register}
+        />
       </div>
-    </StyledContainer>
+
+      <div>
+        <Text text="Payment" style={{ marginBottom: '30px' }} />
+
+        <SelectInput
+          name="paymentType"
+          options={[
+            {
+              label: 'e-Wallet',
+              value: 'eWallet',
+              valueLabel: '1,500,000 left',
+            },
+            {
+              valueLabel: 'Bank Transfer',
+              value: 'bankTransfer',
+            },
+            {
+              valueLabel: 'Virtual Account',
+              value: 'virtualAccount',
+            },
+          ]}
+          register={register}
+        />
+      </div>
+    </div>
   );
 };
 

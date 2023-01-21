@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import {
@@ -17,9 +17,11 @@ const INITIAL_FORM_DATA: FormDataType = {
   dropshipperPhoneNumber: '',
   email: '',
   phoneNumber: '',
+  shipment: '',
+  paymentType: '',
 };
 
-const schema = yup
+const deliveryFormSchema = yup
   .object({
     address: yup.string().max(120).required(),
     email: yup.string().email().required(),
@@ -31,22 +33,17 @@ const schema = yup
   })
   .required();
 
+const paymentFormSchema = yup
+  .object({
+    shipment: yup.string().required(),
+    paymentType: yup.string().required(),
+  })
+  .required();
+
 const CheckoutContext = createContext<FormDataContextValueType | undefined>(undefined);
 
 const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
   const { t } = useTranslation();
-
-  const {
-    register,
-    formState: { errors, dirtyFields, isValid },
-    getValues,
-    reset,
-    handleSubmit,
-  } = useForm<FormDataType>({
-    mode: 'all',
-    defaultValues: INITIAL_FORM_DATA,
-    resolver: yupResolver(schema),
-  });
 
   const [currentStep, setCurrentStep] = useState(DEFAULT_CURRENT_STEP);
   const [steps] = useState([
@@ -65,6 +62,19 @@ const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
       id: 'step-3',
     },
   ]);
+  const [schema, setSchema] = useState<any>(deliveryFormSchema);
+
+  const {
+    register,
+    formState: { errors, dirtyFields, isValid },
+    getValues,
+    reset,
+    handleSubmit,
+  } = useForm<FormDataType>({
+    mode: 'all',
+    defaultValues: INITIAL_FORM_DATA,
+    resolver: yupResolver(schema),
+  });
 
   const handleOnClickBack = () => {
     if (currentStep === 1) {
@@ -87,6 +97,14 @@ const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
 
     setCurrentStep((prevStep) => prevStep + 1);
   };
+
+  useEffect(() => {
+    if (currentStep === 1) {
+      setSchema(deliveryFormSchema);
+    } else if (currentStep === 2) {
+      setSchema(paymentFormSchema);
+    }
+  }, [currentStep]);
 
   const value = {
     register,

@@ -16,6 +16,8 @@ export type FormDataType = {
   address: string;
   dropshipperName: string;
   dropshipperPhoneNumber: string;
+  shipment: string;
+  paymentType: string;
 };
 
 export type FormDataContextValueType = {
