@@ -5,6 +5,7 @@ import {
   CheckoutProviderProps,
   FormDataContextValueType,
   FormDataType,
+  PersistedDataType,
 } from './CheckoutContext.interfaces';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -93,6 +94,7 @@ const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
     reset,
     handleSubmit,
     watch,
+    setValue,
   } = useForm<FormDataType>({
     mode: 'all',
     defaultValues: INITIAL_FORM_DATA,
@@ -114,12 +116,27 @@ const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
   const handleOnFormSubmit = () => {
     if (currentStep === steps.length) {
       setCurrentStep(DEFAULT_CURRENT_STEP);
-      setCheckoutData(INITIAL_CHECKOUT_DATA);
+      setCheckoutData({
+        ...INITIAL_CHECKOUT_DATA,
+        orderID: generateRandomOrderID(),
+      });
       reset();
       return;
     }
 
     setCurrentStep((prevStep) => prevStep + 1);
+  };
+
+  const handleBeforeWindowUnload = () => {
+    const formValues = getValues();
+
+    const persistedCheckoutState = JSON.stringify({
+      currentStep,
+      checkoutData,
+      formValues,
+    });
+
+    localStorage.setItem('persistedCheckoutState', persistedCheckoutState);
   };
 
   useEffect(() => {
@@ -172,6 +189,34 @@ const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
       deliveryEstimation,
     }));
   }, [getValues('shipment')]);
+
+  useEffect(() => {
+    window.addEventListener('beforeunload', handleBeforeWindowUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeWindowUnload);
+    };
+  }, [currentStep]);
+
+  useEffect(() => {
+    const persistedCheckoutState = localStorage.getItem('persistedCheckoutState');
+
+    if (persistedCheckoutState) {
+      const persistedData: PersistedDataType = JSON.parse(persistedCheckoutState);
+
+      setCurrentStep(persistedData.currentStep);
+      setCheckoutData(persistedData.checkoutData);
+
+      Object.keys(persistedData.formValues).forEach((key) => {
+        if (persistedData.formValues[key]) {
+          setValue(key, persistedData.formValues[key], {
+            shouldValidate: true,
+            shouldDirty: true,
+          });
+        }
+      });
+    }
+  }, []);
 
   const value = {
     register,

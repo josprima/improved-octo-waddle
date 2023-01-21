@@ -21,6 +21,15 @@ export type FormDataType = {
   sendAsDropshipper: boolean;
 };
 
+type CheckoutDataType = {
+  totalItem: number;
+  costOfGoods: number;
+  dropshippingFee: number;
+  shipmentFee: number;
+  deliveryEstimation: string;
+  orderID: string;
+};
+
 export type FormDataContextValueType = {
   register: UseFormRegister<FormDataType>;
   errors: Partial<FieldErrorsImpl<FormDataType>>;
@@ -35,12 +44,11 @@ export type FormDataContextValueType = {
     backButtonText?: string | undefined;
   }[];
   currentStep: number;
-  checkoutData: {
-    totalItem: number;
-    costOfGoods: number;
-    dropshippingFee: number;
-    shipmentFee: number;
-    deliveryEstimation: string;
-    orderID: string;
-  };
+  checkoutData: CheckoutDataType;
+};
+
+export type PersistedDataType = {
+  currentStep: number;
+  checkoutData: CheckoutDataType;
+  formValues: FormDataType;
 };
