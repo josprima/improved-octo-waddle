@@ -37,8 +37,8 @@ const StyledStepWrapper = styled.div`
 
 const StyledSummary = styled.div`
   flex-basis: 300px;
-  padding: 30px 20px 20px;
-  border-left: 1px solid ${COLOR.primary};
+  padding: 30px 20px 10px;
+  border-left: 1px solid ${COLOR.borderOrangeLight};
   min-height: 500px;
   display: flex;
   flex-direction: column;
@@ -47,7 +47,7 @@ const StyledSummary = styled.div`
   @media screen and (max-width: 940px) {
     flex-direction: column;
     border-left: 0;
-    border-top: 1px solid ${COLOR.primary};
+    border-top: 1px solid ${COLOR.borderOrangeLight};
     min-height: 0;
     padding: 30px 0 20px;
   }
@@ -97,25 +97,23 @@ const CheckoutForm = () => {
   };
 
   const renderSubmitButton = () => {
+    let buttonTextElement = null;
+
     if (currentStep === 1) {
+      buttonTextElement = <span>{t('continueToPayment')}</span>;
+    } else if (currentStep === 2 && getValues('paymentType')) {
+      buttonTextElement = <span>Pay with {getValues('paymentType')}</span>;
+    }
+
+    if (buttonTextElement) {
       return (
-        <Button onClick={handleOnFormSubmit} style={{ width: '100%' }}>
-          <span>{t('continueToPayment')}</span>
+        <Button onClick={handleOnFormSubmit} style={{ width: '100%', marginTop: '30px' }}>
+          {buttonTextElement}
         </Button>
       );
     }
 
-    if (currentStep === 2) {
-      if (getValues('paymentType')) {
-        return (
-          <Button onClick={handleOnFormSubmit} style={{ width: '100%' }}>
-            <span>Pay with {getValues('paymentType')}</span>
-          </Button>
-        );
-      }
-
-      return null;
-    }
+    return null;
   };
 
   const backButtonText = steps[currentStep - 1].backButtonText;
@@ -138,17 +136,29 @@ const CheckoutForm = () => {
               } purchased`}
             />
 
-            {currentStep === 2 && checkoutData.deliveryEstimation && (
+            {currentStep > 1 && checkoutData.deliveryEstimation && (
               <StyleSummaryItem>
-                <Text text="Delivery estimation" style={{ marginBottom: '5px' }} />
-                <Text text={`${checkoutData.deliveryEstimation} by ${getValues('shipment')}`} />
+                <Text
+                  text="Delivery estimation"
+                  style={{ marginBottom: '5px', color: COLOR.textSecondary }}
+                />
+                <Text
+                  text={`${checkoutData.deliveryEstimation} by ${getValues('shipment')}`}
+                  style={{ color: COLOR.borderGreen, fontSize: '16px', fontWeight: 700 }}
+                />
               </StyleSummaryItem>
             )}
 
             {currentStep === 3 && (
               <StyleSummaryItem>
-                <Text text="Payment method" style={{ marginBottom: '5px' }} />
-                <Text text={getValues('paymentType')} />
+                <Text
+                  text="Payment method"
+                  style={{ marginBottom: '5px', color: COLOR.textSecondary }}
+                />
+                <Text
+                  text={getValues('paymentType')}
+                  style={{ color: COLOR.borderGreen, fontSize: '16px', fontWeight: 700 }}
+                />
               </StyleSummaryItem>
             )}
           </div>
@@ -169,13 +179,13 @@ const CheckoutForm = () => {
 
               {getValues('shipment') && (
                 <StyledLabelValue>
-                  <Text text={`${getValues('shipment')} shipment`} />
+                  <Text text={`<b>${getValues('shipment')}</b> shipment`} />
                   <Text variant="label-value" text={format(checkoutData.shipmentFee)} />
                 </StyledLabelValue>
               )}
             </div>
 
-            <StyledLabelValue style={{ margin: '25px 0 30px' }}>
+            <StyledLabelValue style={{ marginTop: '25px' }}>
               <Text text="Total" variant="sub-title" />
               <Text
                 text={format(

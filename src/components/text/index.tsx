@@ -65,7 +65,7 @@ const Text = ({ text, variant = 'paragraph', style }: TextProps) => {
     return <span style={{ ...labelValueStyle, ...style }}>{text}</span>;
   }
 
-  return <p style={{ ...paragraphStyle, ...style }}>{text}</p>;
+  return <p style={{ ...paragraphStyle, ...style }} dangerouslySetInnerHTML={{ __html: text }} />;
 };
 
 export default Text;

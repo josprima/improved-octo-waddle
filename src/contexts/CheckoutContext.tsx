@@ -27,6 +27,14 @@ const INITIAL_FORM_DATA: FormDataType = {
   sendAsDropshipper: false,
 };
 
+const INITIAL_CHECKOUT_DATA = {
+  totalItem: 10,
+  costOfGoods: 500000,
+  dropshippingFee: 0,
+  shipmentFee: 0,
+  deliveryEstimation: '',
+};
+
 const deliveryFormSchema = yup
   .object({
     address: yup.string().max(120).required(),
@@ -74,13 +82,7 @@ const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
     },
   ]);
 
-  const [checkoutData, setCheckoutData] = useState({
-    totalItem: 10,
-    costOfGoods: 500000,
-    dropshippingFee: 0,
-    shipmentFee: 0,
-    deliveryEstimation: '',
-  });
+  const [checkoutData, setCheckoutData] = useState(INITIAL_CHECKOUT_DATA);
 
   const {
     register,
@@ -109,6 +111,7 @@ const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
   const handleOnFormSubmit = () => {
     if (currentStep === steps.length) {
       setCurrentStep(DEFAULT_CURRENT_STEP);
+      setCheckoutData(INITIAL_CHECKOUT_DATA);
       reset();
       return;
     }
