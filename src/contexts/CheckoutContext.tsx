@@ -207,8 +207,10 @@ const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
       setCurrentStep(persistedData.currentStep);
       setCheckoutData(persistedData.checkoutData);
 
-      Object.keys(persistedData.formValues).forEach((key) => {
-        if (persistedData.formValues[key]) {
+      const formValues: FormDataType = persistedData.formValues;
+
+      (Object.keys(formValues) as Array<keyof FormDataType>).forEach((key) => {
+        if (formValues[key]) {
           setValue(key, persistedData.formValues[key], {
             shouldValidate: true,
             shouldDirty: true,
