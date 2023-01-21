@@ -1,11 +1,11 @@
 import { COLOR } from '@constants/themes';
 import styled from 'styled-components';
-import { TextInputProps } from './TextInput.interfaces';
+import { TextAreaInputProps } from './TextAreaInput.interfaces';
 import ClearIcon from '@mui/icons-material/Clear';
 import CheckIcon from '@mui/icons-material/Check';
 
 const StyledInputWrapper = styled.div<{ color: string }>`
-  height: 60px;
+  height: 120px;
   border: 1px solid ${(props) => props.color};
   position: relative;
 
@@ -19,7 +19,7 @@ const StyledInputWrapper = styled.div<{ color: string }>`
     transition: all linear 0.1s;
   }
 
-  & > input {
+  & > textarea {
     width: 100%;
     height: 100%;
     padding: 30px 40px 15px 15px;
@@ -28,6 +28,7 @@ const StyledInputWrapper = styled.div<{ color: string }>`
     font-size: 16px;
     font-weight: 700;
     color: ${COLOR.textSecondary};
+    resize: none;
 
     &:focus ~ label,
     &:not(:placeholder-shown) ~ label {
@@ -46,6 +47,7 @@ const StyledInputWrapper = styled.div<{ color: string }>`
     right: 15px;
     top: 18px;
     color: ${(props) => props.color};
+    pointer-events: none;
   }
 `;
 
@@ -61,20 +63,19 @@ const getInputData = (isError: boolean | undefined) => {
   return { color: COLOR.borderGreen, icon: <CheckIcon sx={{ fontSize: 18 }} /> };
 };
 
-const TextInput = ({
+const TextAreaInput = ({
   name,
   id,
   label,
   register,
   isError = undefined,
-  type = 'text',
   style,
-}: TextInputProps) => {
+}: TextAreaInputProps) => {
   const { color, icon } = getInputData(isError);
 
   return (
     <StyledInputWrapper color={color} style={style}>
-      <input id={id} type={type} {...register(name)} placeholder={label} />
+      <textarea id={id} {...register(name)} placeholder={label}></textarea>
 
       <label htmlFor={id}>{label}</label>
 
@@ -83,4 +84,4 @@ const TextInput = ({
   );
 };
 
-export default TextInput;
+export default TextAreaInput;

@@ -1,58 +1,57 @@
-import Button from '@components/button';
 import Text from '@components/text';
 import TextInput from '@components/text-input';
-import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
 import _isEmpty from 'lodash/isEmpty';
 import { useCheckout } from '@contexts/CheckoutContext';
+import styled from 'styled-components';
+import TextAreaInput from '@components/text-area-input';
 
-const StyledContainer = styled.div`
+const StyledFormTitleWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
-`;
-
-const StyledSummary = styled.div`
-  flex-basis: 300px;
-  padding: 30px 20px 20px;
+  align-items: center;
+  margin-bottom: 36px;
 `;
 
 const DeliveryForm = () => {
-  const { t } = useTranslation();
-
-  const { dirtyFields, errors, register, handleOnFormSubmit } = useCheckout();
+  const { dirtyFields, errors, register } = useCheckout();
 
   return (
-    <StyledContainer>
+    <div>
+      <StyledFormTitleWrapper>
+        <Text text="Delivery Details" />
+      </StyledFormTitleWrapper>
+
       <div>
-        <div>
-          <Text text="Delivery Details" />
-        </div>
+        <TextInput
+          id="email"
+          label="Email"
+          name="email"
+          isError={!_isEmpty(errors.email) ? true : dirtyFields.email ? false : undefined}
+          register={register}
+          type="email"
+          style={{ marginBottom: '10px' }}
+        />
 
-        <div>
-          <TextInput
-            required
-            id="dropshipperName"
-            label="Dropshipper name"
-            name="dropshipperName"
-            isError={
-              !_isEmpty(errors.dropshipperName)
-                ? true
-                : dirtyFields.dropshipperName
-                ? false
-                : undefined
-            }
-            register={register}
-          />
-        </div>
+        <TextInput
+          id="phoneNumber"
+          label="Phone Number"
+          name="phoneNumber"
+          isError={
+            !_isEmpty(errors.phoneNumber) ? true : dirtyFields.phoneNumber ? false : undefined
+          }
+          register={register}
+          type="tel"
+          style={{ marginBottom: '10px' }}
+        />
+
+        <TextAreaInput
+          id="address"
+          label="Delivery Address"
+          name="address"
+          isError={!_isEmpty(errors.address) ? true : dirtyFields.address ? false : undefined}
+          register={register}
+        />
       </div>
-      <StyledSummary>
-        <Text text="Summary" variant="sub-title" />
-
-        <Button onClick={handleOnFormSubmit}>
-          <span>{t('continueToPayment')}</span>
-        </Button>
-      </StyledSummary>
-    </StyledContainer>
+    </div>
   );
 };
 

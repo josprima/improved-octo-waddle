@@ -6,6 +6,9 @@ import PaymentForm from './PaymentForm';
 import BackButton from '@components/back-button';
 import FinishStep from './FinishStep';
 import { useCheckout } from '@contexts/CheckoutContext';
+import Text from '@components/text';
+import Button from '@components/button';
+import { useTranslation } from 'react-i18next';
 
 const StyledCheckoutForm = styled.div`
   background-color: ${COLOR.white};
@@ -23,10 +26,19 @@ const StyledCheckoutForm = styled.div`
 
 const StyledStepWrapper = styled.div`
   margin-top: 20px;
+  display: flex;
+  gap: 30px;
+`;
+
+const StyledSummary = styled.div`
+  flex-basis: 300px;
+  padding: 30px 20px 20px;
+  border-left: 1px solid ${COLOR.primary};
 `;
 
 const CheckoutForm = () => {
-  const { currentStep, steps, handleOnClickBack } = useCheckout();
+  const { t } = useTranslation();
+  const { currentStep, steps, handleOnClickBack, handleOnFormSubmit } = useCheckout();
 
   const renderFormStep = () => {
     switch (currentStep) {
@@ -52,7 +64,17 @@ const CheckoutForm = () => {
 
       {backButtonText && <BackButton onClick={handleOnClickBack} text={backButtonText} />}
 
-      <StyledStepWrapper>{renderFormStep()}</StyledStepWrapper>
+      <StyledStepWrapper>
+        <div style={{ flexGrow: 1 }}>{renderFormStep()}</div>
+
+        <StyledSummary>
+          <Text text="Summary" variant="sub-title" />
+
+          <Button onClick={handleOnFormSubmit}>
+            <span>{t('continueToPayment')}</span>
+          </Button>
+        </StyledSummary>
+      </StyledStepWrapper>
     </StyledCheckoutForm>
   );
 };

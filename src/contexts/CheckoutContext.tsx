@@ -6,6 +6,10 @@ import {
   FormDataContextValueType,
   FormDataType,
 } from './CheckoutContext.interfaces';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+const DEFAULT_CURRENT_STEP = 1;
 
 const INITIAL_FORM_DATA: FormDataType = {
   address: '',
@@ -15,7 +19,17 @@ const INITIAL_FORM_DATA: FormDataType = {
   phoneNumber: '',
 };
 
-const DEFAULT_CURRENT_STEP = 1;
+const schema = yup
+  .object({
+    address: yup.string().max(120).required(),
+    email: yup.string().email().required(),
+    phoneNumber: yup
+      .string()
+      .min(6)
+      .max(20)
+      .matches(/\+?([ -]?\d+)+|\(\d+\)([ -]\d+)/),
+  })
+  .required();
 
 const CheckoutContext = createContext<FormDataContextValueType | undefined>(undefined);
 
@@ -26,9 +40,12 @@ const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
     register,
     formState: { errors, dirtyFields, isValid },
     getValues,
+    reset,
+    handleSubmit,
   } = useForm<FormDataType>({
     mode: 'all',
     defaultValues: INITIAL_FORM_DATA,
+    resolver: yupResolver(schema),
   });
 
   const [currentStep, setCurrentStep] = useState(DEFAULT_CURRENT_STEP);
@@ -60,6 +77,11 @@ const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
   const handleOnFormSubmit = () => {
     if (currentStep === steps.length) {
       setCurrentStep(DEFAULT_CURRENT_STEP);
+      reset();
+      return;
+    }
+
+    if (!isValid) {
       return;
     }
 
@@ -72,7 +94,7 @@ const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
     dirtyFields,
     isValid,
     getValues,
-    handleOnFormSubmit,
+    handleOnFormSubmit: handleSubmit(handleOnFormSubmit),
     handleOnClickBack,
     steps,
     currentStep,
