@@ -1,7 +1,7 @@
-## System Requirements
-This projects is created with react, see [https://reactjs.org/docs/create-a-new-react-app.html](https://reactjs.org/docs/create-a-new-react-app.html) for system requirement.
+# JAKMALL Checkout Page
+This project is build using [ReactJS](https://reactjs.org/) and other supporting tools.
 
-## How to Run Local development
+## Run Local development
 1. Install dependency by running: `npm install`
 2. Run local development server: `npm run dev`
 
@@ -26,3 +26,17 @@ This projects is created with react, see [https://reactjs.org/docs/create-a-new-
     ```
     npm run lint-fix
     ```
+
+## Tools
+### Build tools
+For build tools, i try using vite, but usually i use webpack, because vite claims it's offer better development experience over webpack.
+
+### Styling
+For styling library using [styled-components](https://styled-components.com/) and mixed with inline css.
+Honestly i don't like writing css using styled-components way, i prefer css module.
+
+### Form Validation
+React Hook Form + Yup
+
+### State Management
+The state is shared accross multiple components, so i decide to create context for managing state globally.
