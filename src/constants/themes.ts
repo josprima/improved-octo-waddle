@@ -6,6 +6,7 @@ export const COLOR = {
   textPrimary: 'rgba(0, 0, 0, 0.6)',
   textSecondary: '#000000',
   backgroundSecondary: '#EEEEEE',
+  backgroundGreen: 'rgba(27, 217, 123, 0.1)',
   border: '#CCCCCC',
   borderGreen: '#1BD97B',
   borderOrange: '#FF8A00',
