@@ -35,4 +35,10 @@ export type FormDataContextValueType = {
     backButtonText?: string | undefined;
   }[];
   currentStep: number;
+  checkoutData: {
+    totalItem: number;
+    costOfGoods: number;
+    dropshippingFee: number;
+    shipmentFee: number;
+  };
 };

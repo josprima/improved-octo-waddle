@@ -11,6 +11,7 @@ const AppWrapper = styled.div`
   padding-bottom: 50px;
   display: flex;
   justify-content: center;
+  align-items: baseline;
 `;
 
 function App() {

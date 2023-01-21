@@ -19,6 +19,12 @@ const subTitleStyle: CSSProperties = {
   fontSize: '24px',
 };
 
+const paragraphStyle: CSSProperties = {
+  fontFamily: FONT.primary,
+  color: COLOR.textPrimary,
+  fontSize: '14px',
+};
+
 const StyledTitleWrapper = styled.div`
   position: relative;
 
@@ -35,7 +41,7 @@ const StyledTitleWrapper = styled.div`
   }
 `;
 
-const Text = ({ text, variant = 'title', style }: TextProps) => {
+const Text = ({ text, variant = 'paragraph', style }: TextProps) => {
   if (variant === 'title') {
     return (
       <StyledTitleWrapper>
@@ -48,7 +54,7 @@ const Text = ({ text, variant = 'title', style }: TextProps) => {
     return <h2 style={{ ...subTitleStyle, ...style }}>{text}</h2>;
   }
 
-  return <p style={{ ...style }}>{text}</p>;
+  return <p style={{ ...paragraphStyle, ...style }}>{text}</p>;
 };
 
 export default Text;

@@ -21,7 +21,8 @@
       "@components/*": ["./components/*"],
       "@constants/*": ["./constants/*"],
       "@libs/*": ["./libs/*"],
-      "@contexts/*": ["./contexts/*"]
+      "@contexts/*": ["./contexts/*"],
+      "@utils/*": ["./utils/*"]
     }
   },
   "include": ["src"],

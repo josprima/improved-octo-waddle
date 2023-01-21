@@ -11,23 +11,31 @@ const StyledFormTitleWrapper = styled.div`
   align-items: center;
   margin-bottom: 36px;
   justify-content: space-between;
+  gap: 30px;
+
+  @media screen and (max-width: 620px) {
+    flex-direction: column;
+    align-items: baseline;
+  }
 `;
 
 const StyledForm = styled.div`
   display: flex;
+  gap: 30px;
+
+  @media screen and (max-width: 620px) {
+    flex-direction: column;
+  }
 `;
 
 const StyledDeliveryForm = styled.div`
-  flex-basis: 400px;
   flex-grow: 2;
-  transition: all ease 0.2s;
+  flex-basis: 100px;
 `;
 
 const StyledDropshipperForm = styled.div`
-  flex-basis: 300px;
-  transition: all ease 0.2s;
-  margin-left: 30px;
   flex-grow: 1;
+  flex-basis: 100px;
 `;
 
 const DeliveryForm = () => {
@@ -36,7 +44,7 @@ const DeliveryForm = () => {
   return (
     <div>
       <StyledFormTitleWrapper>
-        <Text text="Delivery Details" />
+        <Text variant="title" text="Delivery Details" />
 
         <CheckboxInput label="Send as dropshipper" name="sendAsDropshipper" register={register} />
       </StyledFormTitleWrapper>

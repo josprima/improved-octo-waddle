@@ -10,6 +10,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 const DEFAULT_CURRENT_STEP = 1;
+const DROPSHIPPING_FEE = 5900;
 const PHONE_NUMBER_REGEX = /\+?([ -]?\d+)+|\(\d+\)([ -]\d+)/;
 
 const INITIAL_FORM_DATA: FormDataType = {
@@ -50,7 +51,9 @@ const CheckoutContext = createContext<FormDataContextValueType | undefined>(unde
 const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
   const { t } = useTranslation();
 
+  const [schema, setSchema] = useState<any>(deliveryFormSchema);
   const [currentStep, setCurrentStep] = useState(DEFAULT_CURRENT_STEP);
+
   const [steps] = useState([
     {
       label: t('delivery'),
@@ -67,7 +70,13 @@ const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
       id: 'step-3',
     },
   ]);
-  const [schema, setSchema] = useState<any>(deliveryFormSchema);
+
+  const [checkoutData, setCheckoutData] = useState({
+    totalItem: 10,
+    costOfGoods: 500000,
+    dropshippingFee: 0,
+    shipmentFee: 0,
+  });
 
   const {
     register,
@@ -116,6 +125,15 @@ const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
     }
   }, [currentStep, getValues('sendAsDropshipper')]);
 
+  useEffect(() => {
+    if (getValues('sendAsDropshipper')) {
+      setCheckoutData((prevCheckoutData) => ({
+        ...prevCheckoutData,
+        dropshippingFee: DROPSHIPPING_FEE,
+      }));
+    }
+  }, [getValues('sendAsDropshipper')]);
+
   const value = {
     register,
     errors,
@@ -126,6 +144,7 @@ const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
     handleOnClickBack,
     steps,
     currentStep,
+    checkoutData,
   };
 
   return <CheckoutContext.Provider value={value}>{children}</CheckoutContext.Provider>;
