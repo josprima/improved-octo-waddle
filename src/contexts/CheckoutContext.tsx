@@ -8,6 +8,7 @@ import {
 } from './CheckoutContext.interfaces';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import generateRandomOrderID from '@utils/generate-random-order-id';
 
 const DEFAULT_CURRENT_STEP = 1;
 const DROPSHIPPING_FEE = 5900;
@@ -33,6 +34,7 @@ const INITIAL_CHECKOUT_DATA = {
   dropshippingFee: 0,
   shipmentFee: 0,
   deliveryEstimation: '',
+  orderID: generateRandomOrderID(),
 };
 
 const deliveryFormSchema = yup

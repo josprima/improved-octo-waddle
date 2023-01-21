@@ -9,7 +9,7 @@ import { useCheckout } from '@contexts/CheckoutContext';
 import Text from '@components/text';
 import Button from '@components/button';
 import { useTranslation } from 'react-i18next';
-import format from '@utils/currency';
+import formatCurrency from '@utils/format-currency';
 
 const StyledCheckoutForm = styled.div`
   background-color: ${COLOR.white};
@@ -167,20 +167,20 @@ const CheckoutForm = () => {
             <div>
               <StyledLabelValue style={{ marginBottom: '12px' }}>
                 <Text text="Cost of goods" />
-                <Text variant="label-value" text={format(checkoutData.costOfGoods)} />
+                <Text variant="label-value" text={formatCurrency(checkoutData.costOfGoods)} />
               </StyledLabelValue>
 
               {getValues('sendAsDropshipper') && (
                 <StyledLabelValue style={{ marginBottom: '12px' }}>
                   <Text text="Dropshipping Fee" />
-                  <Text variant="label-value" text={format(checkoutData.dropshippingFee)} />
+                  <Text variant="label-value" text={formatCurrency(checkoutData.dropshippingFee)} />
                 </StyledLabelValue>
               )}
 
               {getValues('shipment') && (
                 <StyledLabelValue>
                   <Text text={`<b>${getValues('shipment')}</b> shipment`} />
-                  <Text variant="label-value" text={format(checkoutData.shipmentFee)} />
+                  <Text variant="label-value" text={formatCurrency(checkoutData.shipmentFee)} />
                 </StyledLabelValue>
               )}
             </div>
@@ -188,7 +188,7 @@ const CheckoutForm = () => {
             <StyledLabelValue style={{ marginTop: '25px' }}>
               <Text text="Total" variant="sub-title" />
               <Text
-                text={format(
+                text={formatCurrency(
                   checkoutData.costOfGoods +
                     checkoutData.dropshippingFee +
                     checkoutData.shipmentFee,
