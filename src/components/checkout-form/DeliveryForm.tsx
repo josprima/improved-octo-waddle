@@ -79,6 +79,8 @@ const DeliveryForm = () => {
             name="address"
             isError={!_isEmpty(errors.address) ? true : dirtyFields.address ? false : undefined}
             register={register}
+            charLength={getValues('address').length}
+            maxCharLength={120}
           />
         </StyledDeliveryForm>
 

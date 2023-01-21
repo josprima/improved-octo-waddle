@@ -51,6 +51,14 @@ const StyledInputWrapper = styled.div<{ color: string }>`
   }
 `;
 
+const StyledCharacterCount = styled.span`
+  position: absolute;
+  bottom: 10px;
+  right: 15px;
+  font-size: 12px;
+  color: ${COLOR.textPrimary};
+`;
+
 const getInputData = (isError: boolean | undefined) => {
   if (isError === undefined) {
     return { color: COLOR.border, icon: null };
@@ -70,6 +78,8 @@ const TextAreaInput = ({
   register,
   isError = undefined,
   style,
+  maxCharLength = 0,
+  charLength = 0,
 }: TextAreaInputProps) => {
   const { color, icon } = getInputData(isError);
 
@@ -78,6 +88,10 @@ const TextAreaInput = ({
       <textarea id={id} {...register(name)} placeholder={label}></textarea>
 
       <label htmlFor={id}>{label}</label>
+
+      {maxCharLength > 0 && (
+        <StyledCharacterCount>{`${charLength}/${maxCharLength}`}</StyledCharacterCount>
+      )}
 
       {icon}
     </StyledInputWrapper>

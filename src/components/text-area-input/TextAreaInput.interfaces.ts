@@ -9,4 +9,6 @@ export interface TextAreaInputProps {
   isError?: boolean | undefined;
   style?: CSSProperties;
   cols?: number;
+  maxCharLength?: number;
+  charLength?: number;
 }

@@ -101,6 +101,7 @@ const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
 
   watch('paymentType');
   watch('shipment');
+  watch('address');
 
   const handleOnClickBack = () => {
     if (currentStep === 1) {
