@@ -25,6 +25,13 @@ const paragraphStyle: CSSProperties = {
   fontSize: '14px',
 };
 
+const labelValueStyle: CSSProperties = {
+  fontFamily: FONT.primary,
+  color: COLOR.textSecondary,
+  fontSize: '14px',
+  fontWeight: 700,
+};
+
 const StyledTitleWrapper = styled.div`
   position: relative;
 
@@ -52,6 +59,10 @@ const Text = ({ text, variant = 'paragraph', style }: TextProps) => {
 
   if (variant === 'sub-title') {
     return <h2 style={{ ...subTitleStyle, ...style }}>{text}</h2>;
+  }
+
+  if (variant === 'label-value') {
+    return <span style={{ ...labelValueStyle, ...style }}>{text}</span>;
   }
 
   return <p style={{ ...paragraphStyle, ...style }}>{text}</p>;

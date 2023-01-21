@@ -14,7 +14,7 @@ const FinishStep = () => {
   return (
     <StyledContainer>
       <div>
-        <Text text="Thank you" />
+        <Text variant="title" text="Thank you" />
 
         <BackButton onClick={handleOnFormSubmit} text="Go to homepage" />
       </div>

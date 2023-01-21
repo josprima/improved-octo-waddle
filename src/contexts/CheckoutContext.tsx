@@ -11,6 +11,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 const DEFAULT_CURRENT_STEP = 1;
 const DROPSHIPPING_FEE = 5900;
+const GO_SEND_SHIPMENT_FEE = 15000;
+const JNE_SHIPMENT_FEE = 9000;
+const PERSONAL_COURIER_SHIPMENT_FEE = 29000;
 const PHONE_NUMBER_REGEX = /\+?([ -]?\d+)+|\(\d+\)([ -]\d+)/;
 
 const INITIAL_FORM_DATA: FormDataType = {
@@ -76,6 +79,7 @@ const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
     costOfGoods: 500000,
     dropshippingFee: 0,
     shipmentFee: 0,
+    deliveryEstimation: '',
   });
 
   const {
@@ -84,11 +88,15 @@ const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
     getValues,
     reset,
     handleSubmit,
+    watch,
   } = useForm<FormDataType>({
     mode: 'all',
     defaultValues: INITIAL_FORM_DATA,
     resolver: yupResolver(schema),
   });
+
+  watch('paymentType');
+  watch('shipment');
 
   const handleOnClickBack = () => {
     if (currentStep === 1) {
@@ -102,10 +110,6 @@ const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
     if (currentStep === steps.length) {
       setCurrentStep(DEFAULT_CURRENT_STEP);
       reset();
-      return;
-    }
-
-    if (!isValid) {
       return;
     }
 
@@ -131,8 +135,37 @@ const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
         ...prevCheckoutData,
         dropshippingFee: DROPSHIPPING_FEE,
       }));
+    } else {
+      setCheckoutData((prevCheckoutData) => ({
+        ...prevCheckoutData,
+        dropshippingFee: 0,
+      }));
     }
   }, [getValues('sendAsDropshipper')]);
+
+  useEffect(() => {
+    const selectedShipment = getValues('shipment');
+
+    let shipmentFee = 0;
+    let deliveryEstimation = '';
+
+    if (selectedShipment === 'GO-SEND') {
+      shipmentFee = GO_SEND_SHIPMENT_FEE;
+      deliveryEstimation = 'today';
+    } else if (selectedShipment === 'JNE') {
+      shipmentFee = JNE_SHIPMENT_FEE;
+      deliveryEstimation = '2 days';
+    } else if (selectedShipment === 'Personal Courier') {
+      shipmentFee = PERSONAL_COURIER_SHIPMENT_FEE;
+      deliveryEstimation = '1 day';
+    }
+
+    setCheckoutData((prevCheckoutData) => ({
+      ...prevCheckoutData,
+      shipmentFee,
+      deliveryEstimation,
+    }));
+  }, [getValues('shipment')]);
 
   const value = {
     register,

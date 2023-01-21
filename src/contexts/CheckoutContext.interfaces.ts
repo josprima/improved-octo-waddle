@@ -40,5 +40,6 @@ export type FormDataContextValueType = {
     costOfGoods: number;
     dropshippingFee: number;
     shipmentFee: number;
+    deliveryEstimation: string;
   };
 };

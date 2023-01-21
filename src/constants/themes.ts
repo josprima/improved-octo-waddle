@@ -10,6 +10,7 @@ export const COLOR = {
   border: '#CCCCCC',
   borderGreen: '#1BD97B',
   borderOrange: '#FF8A00',
+  borderGreyLight: '#D8D8D8',
 };
 
 export const FONT = {

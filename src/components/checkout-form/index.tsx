@@ -53,6 +53,28 @@ const StyledSummary = styled.div`
   }
 `;
 
+const StyledLabelValue = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const StyleSummaryItem = styled.div`
+  margin-top: 20px;
+  padding-top: 20px;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80px;
+    height: 1px;
+    background-color: ${COLOR.borderGreyLight};
+  }
+`;
+
 const CheckoutForm = () => {
   const { t } = useTranslation();
   const { currentStep, steps, handleOnClickBack, handleOnFormSubmit, checkoutData, getValues } =
@@ -74,6 +96,28 @@ const CheckoutForm = () => {
     }
   };
 
+  const renderSubmitButton = () => {
+    if (currentStep === 1) {
+      return (
+        <Button onClick={handleOnFormSubmit} style={{ width: '100%' }}>
+          <span>{t('continueToPayment')}</span>
+        </Button>
+      );
+    }
+
+    if (currentStep === 2) {
+      if (getValues('paymentType')) {
+        return (
+          <Button onClick={handleOnFormSubmit} style={{ width: '100%' }}>
+            <span>Pay with {getValues('paymentType')}</span>
+          </Button>
+        );
+      }
+
+      return null;
+    }
+  };
+
   const backButtonText = steps[currentStep - 1].backButtonText;
 
   return (
@@ -88,32 +132,62 @@ const CheckoutForm = () => {
         <StyledSummary>
           <div>
             <Text text="Summary" variant="sub-title" style={{ marginBottom: '10px' }} />
-            <Text text="10 items purchased" />
+            <Text
+              text={`${checkoutData.totalItem} ${
+                checkoutData.totalItem > 1 ? 'items' : 'item'
+              } purchased`}
+            />
+
+            {currentStep === 2 && checkoutData.deliveryEstimation && (
+              <StyleSummaryItem>
+                <Text text="Delivery estimation" style={{ marginBottom: '5px' }} />
+                <Text text={`${checkoutData.deliveryEstimation} by ${getValues('shipment')}`} />
+              </StyleSummaryItem>
+            )}
+
+            {currentStep === 3 && (
+              <StyleSummaryItem>
+                <Text text="Payment method" style={{ marginBottom: '5px' }} />
+                <Text text={getValues('paymentType')} />
+              </StyleSummaryItem>
+            )}
           </div>
 
           <div>
             <div>
-              <div>
-                <span>Cost of goods</span>
-                <span>{format(checkoutData.costOfGoods)}</span>
-              </div>
+              <StyledLabelValue style={{ marginBottom: '12px' }}>
+                <Text text="Cost of goods" />
+                <Text variant="label-value" text={format(checkoutData.costOfGoods)} />
+              </StyledLabelValue>
 
               {getValues('sendAsDropshipper') && (
-                <div>
-                  <span>Dropshipping Fee</span>
-                  <span>{format(checkoutData.dropshippingFee)}</span>
-                </div>
+                <StyledLabelValue style={{ marginBottom: '12px' }}>
+                  <Text text="Dropshipping Fee" />
+                  <Text variant="label-value" text={format(checkoutData.dropshippingFee)} />
+                </StyledLabelValue>
+              )}
+
+              {getValues('shipment') && (
+                <StyledLabelValue>
+                  <Text text={`${getValues('shipment')} shipment`} />
+                  <Text variant="label-value" text={format(checkoutData.shipmentFee)} />
+                </StyledLabelValue>
               )}
             </div>
 
-            <div>
+            <StyledLabelValue style={{ margin: '25px 0 30px' }}>
               <Text text="Total" variant="sub-title" />
-              <Text text="" variant="sub-title" />
-            </div>
+              <Text
+                text={format(
+                  checkoutData.costOfGoods +
+                    checkoutData.dropshippingFee +
+                    checkoutData.shipmentFee,
+                )}
+                variant="sub-title"
+              />
+            </StyledLabelValue>
 
-            <Button onClick={handleOnFormSubmit} style={{ width: '100%' }}>
-              <span>{t('continueToPayment')}</span>
-            </Button>
+            {renderSubmitButton()}
           </div>
         </StyledSummary>
       </StyledStepWrapper>

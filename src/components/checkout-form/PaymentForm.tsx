@@ -8,24 +8,24 @@ const PaymentForm = () => {
   return (
     <div>
       <div style={{ marginBottom: '30px' }}>
-        <Text text="Shipment" style={{ marginBottom: '30px' }} />
+        <Text variant="title" text="Shipment" style={{ marginBottom: '30px' }} />
 
         <SelectInput
           name="shipment"
           options={[
             {
               label: 'GO-SEND',
-              value: 'gosend',
+              value: 'GO-SEND',
               valueLabel: '15,000',
             },
             {
               label: 'JNE',
-              value: 'jne',
+              value: 'JNE',
               valueLabel: '9,000',
             },
             {
               label: 'Personal Courier',
-              value: 'personalCourier',
+              value: 'Personal Courier',
               valueLabel: '29,000',
             },
           ]}
@@ -34,23 +34,23 @@ const PaymentForm = () => {
       </div>
 
       <div>
-        <Text text="Payment" style={{ marginBottom: '30px' }} />
+        <Text variant="title" text="Payment" style={{ marginBottom: '30px' }} />
 
         <SelectInput
           name="paymentType"
           options={[
             {
               label: 'e-Wallet',
-              value: 'eWallet',
+              value: 'e-Wallet',
               valueLabel: '1,500,000 left',
             },
             {
               valueLabel: 'Bank Transfer',
-              value: 'bankTransfer',
+              value: 'Bank Transfer',
             },
             {
               valueLabel: 'Virtual Account',
-              value: 'virtualAccount',
+              value: 'Virtual Account',
             },
           ]}
           register={register}
